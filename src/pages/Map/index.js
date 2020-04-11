@@ -41,6 +41,11 @@ function MapWrapper({ google }) {
     setShowInfoWindow(true);
   }
 
+  function onClickMap(e) {
+    setLatitude(e.latLng.lat());
+    setLongitude(e.latLng.lng());
+  }
+
   return (
     <>
       {latitude && longitude && (
@@ -51,10 +56,19 @@ function MapWrapper({ google }) {
             lat: latitude,
             lng: longitude,
           }}
+          center={{
+            lat: latitude,
+            lng: longitude,
+          }}
+          onClick={(t, map, e) => onClickMap(e)}
         >
           <Marker
             onClick={(props, marker, e) => onMarkerClick(props, marker, e)}
             name="Current teste"
+            position={{
+              lat: latitude,
+              lng: longitude,
+            }}
           />
           <InfoWindow marker={activeMarker} visible={showInfoWindow}>
             <div>
