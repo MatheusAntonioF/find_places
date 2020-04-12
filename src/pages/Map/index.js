@@ -5,15 +5,22 @@ import { Map, GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
 
 import LoadMap from '../WhileLoadMap';
 
+import { api_maps } from '../../services/api';
+
 function MapWrapper({ google }) {
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
 
   const [selectedPlace, setSelectedPlace] = useState({});
 
+  // Pull data on marker in map
   const [activeMarker, setActiveMarker] = useState({});
 
+  // toggle for show and hide details location
   const [showInfoWindow, setShowInfoWindow] = useState(false);
+
+  // places on region location
+  const [places, setPlaces] = useState([]);
 
   useEffect(() => {
     async function loadPosition() {
@@ -46,12 +53,32 @@ function MapWrapper({ google }) {
     setLongitude(e.latLng.lng());
   }
 
+  async function fetchPlaces(mapProps, map) {
+    const lat = map.center.lat();
+    const lng = map.center.lng();
+
+    const { data } = await api_maps.get(
+      'https://cors-anywhere.herokuapp.com/' +
+        `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=1500&type=supermarket&key=AIzaSyDHmAC9pMhcHcgNqxBkeGh_MkvAMf1ZI7U
+        `,
+      {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        },
+      }
+    );
+
+    setPlaces(data.results);
+  }
+  // console.log(places.length > 1 && places);
+
   return (
     <>
       {latitude && longitude && (
         <Map
           google={google}
-          zoom={14}
+          zoom={16}
+          onReady={(mapProps, map) => fetchPlaces(mapProps, map)}
           initialCenter={{
             lat: latitude,
             lng: longitude,
@@ -64,12 +91,21 @@ function MapWrapper({ google }) {
         >
           <Marker
             onClick={(props, marker, e) => onMarkerClick(props, marker, e)}
-            name="Current teste"
+            name="Estou aqui!"
             position={{
               lat: latitude,
               lng: longitude,
             }}
           />
+          {places.length > 0 &&
+            places.map((place) => (
+              <Marker
+                key={place.id}
+                onClck={(props, marker, e) => onMarkerClick(props, marker, e)}
+                name={place.name}
+                position={place.geometry.location}
+              />
+            ))}
           <InfoWindow marker={activeMarker} visible={showInfoWindow}>
             <div>
               <h1>{selectedPlace?.name}</h1>
