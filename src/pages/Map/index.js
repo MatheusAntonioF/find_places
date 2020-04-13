@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Map, GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
 
-import { PlaceInfo } from './styles';
+import { PlaceInfo, ListTypes, DivRadio } from './styles';
 
 import { api_maps } from '../../services/api';
 
@@ -63,22 +63,17 @@ function MapWrapper({ google }) {
     const { data } = await api_maps.get(
       'https://cors-anywhere.herokuapp.com/' +
         `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=1500&type=supermarket&key=AIzaSyDHmAC9pMhcHcgNqxBkeGh_MkvAMf1ZI7U
-        `,
-      {
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-        },
-      }
+        `
     );
 
     setPlaces(data.results);
   }
-  // console.log(places.length > 1 && places);
 
   return (
     <>
       {latitude && longitude && (
         <>
+          <ListTypes />
           <Map
             google={google}
             zoom={16}

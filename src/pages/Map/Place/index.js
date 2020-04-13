@@ -1,13 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Container, Icon, Title, Details } from './styles';
+import { MdClose } from 'react-icons/md';
+
+import { Container, DivExit, Icon, Title, Details } from './styles';
 
 export default function Place({ selectedPlace, setShowInfoWindow }) {
-  console.log(selectedPlace);
-  // opening_hours
   return (
     <Container>
+      <DivExit>
+        <MdClose
+          size={28}
+          color="#e85247"
+          onClick={() => setShowInfoWindow(false)}
+        />
+      </DivExit>
       <Icon>
         <img src={selectedPlace.icon} alt="Ícone do estabelecimento" />
       </Icon>
@@ -29,7 +36,7 @@ Place.propTypes = {
   selectedPlace: PropTypes.shape({
     icon: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    opening_hours: PropTypes.bool.isRequired,
+    opening_hours: PropTypes.shape({}).isRequired,
     vicinity: PropTypes.string.isRequired,
   }).isRequired,
   setShowInfoWindow: PropTypes.func.isRequired,
