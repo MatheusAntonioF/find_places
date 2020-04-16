@@ -1,7 +1,13 @@
 import React from 'react';
 
-import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import { FaSpinner } from 'react-icons/fa';
+
+import { Container } from './styles';
 
 export default function LoadMap() {
-  return <AiOutlineLoading3Quarters size={32} />;
+  return (
+    <Container>
+      <FaSpinner size={54} />
+    </Container>
+  );
 }

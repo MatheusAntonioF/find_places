@@ -5,7 +5,7 @@ import { MdClose } from 'react-icons/md';
 
 import { Container, DivExit, Icon, Title, Details } from './styles';
 
-export default function Place({ selectedPlace, setShowInfoWindow }) {
+export default function InfoPlace({ selectedPlace, setShowInfoWindow }) {
   return (
     <Container>
       <DivExit>
@@ -32,7 +32,7 @@ export default function Place({ selectedPlace, setShowInfoWindow }) {
   );
 }
 
-Place.propTypes = {
+InfoPlace.propTypes = {
   selectedPlace: PropTypes.shape({
     icon: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
