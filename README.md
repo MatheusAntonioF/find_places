@@ -1,4 +1,4 @@
-<h1>Go! Places</h1>
+<h1>FIND! Places</h1>
 
 <p>Sistema para buscar estabelecimentos pré-definidos próximos a partir da localização atual do usuário. A integração foi feita 
 utilizando a api disponibilizada pelo Google Maps(<a href="https://developers.google.com/places/web-service/supported_types?hl=pt_BR">Place Search</a>) 
