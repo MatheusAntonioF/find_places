@@ -3,7 +3,7 @@
 <p>Sistema para buscar estabelecimentos pré-definidos próximos a partir da localização atual do usuário. A integração foi feita 
 utilizando a api disponibilizada pelo Google Maps(<a href="https://developers.google.com/places/web-service/supported_types?hl=pt_BR">Place Search</a>) 
 com auxílio da lib 
-<a href="https://www.npmjs.com/package/google-maps-react">Google Maps React</a>
+<a href="https://www.npmjs.com/package/google-maps-react">Google Maps React</a>.
 </p>
 
 
@@ -31,15 +31,15 @@ com auxílio da lib
 
 
 
-<h2>Instação</h2>
+<h2>Instação.</h2>
 
-<h5>Clonar o projeto para máquina</h5>
+<h5>Clonar o projeto para máquina.</h5>
 
 ```
 git clone https://github.com/MatheusAntonioF/find_places.git
 ```
 
-<h5>Para instalar as dependências execute o comando no terminal do projeto</h5> 
+<h5>Para instalar as dependências execute um dos comandos no terminal do projeto</h5> 
 
 ```
 npm
