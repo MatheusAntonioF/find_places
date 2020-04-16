@@ -33,7 +33,9 @@ module.exports = {
     "no-console": ["error", { allow: ["tron"] }],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "no-use-before-define": "off"
+    "no-use-before-define": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "react/jsx-props-no-spreading": "off",
   },
   settings: {
     "import/resolver": {

@@ -22,8 +22,32 @@ export const Container = styled.div`
 
   animation: ${showSidebar} forwards 400ms;
 
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+
   height: 100%;
-  background: #5d95ef;
+  background: #cfd8dc;
+`;
+
+export const DivExit = styled.div`
+  position: absolute;
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: white;
+  border-radius: 50%;
+  padding: 2px;
+
+  top: 1%;
+  right: 3%;
+
+  svg {
+    cursor: pointer;
+  }
 `;
 
 export const Icon = styled.div`
