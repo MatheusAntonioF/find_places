@@ -3,18 +3,28 @@ import PropTypes from 'prop-types';
 
 import { Map, GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
 
-import { PlaceInfo, ListTypes, DivRadio } from './styles';
+import { FaSpinner } from 'react-icons/fa';
+
+import { PlaceInfo, WrapperDropdown, Loading } from './styles';
 
 import { api_maps } from '../../services/api';
 
+import defaultPlaces from './defaultPlaces';
+
 import LoadMap from './WhileLoadMap';
 import Place from './Place';
+
+import Dropdown from '../../components/Input/Dropdown';
 
 function MapWrapper({ google }) {
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
 
   const [selectedPlace, setSelectedPlace] = useState({});
+
+  const [type, setType] = useState('supermarket');
+
+  const [isLoad, setIsLoad] = useState(false);
 
   // Pull data on marker in map
   const [activeMarker, setActiveMarker] = useState({});
@@ -45,6 +55,22 @@ function MapWrapper({ google }) {
     loadPosition();
   }, []);
 
+  useEffect(() => {
+    setIsLoad(true);
+    async function fetchPlacesApi() {
+      const { data } = await api_maps.get(
+        'https://cors-anywhere.herokuapp.com/' +
+          `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=1500&type=${type}&key=AIzaSyDHmAC9pMhcHcgNqxBkeGh_MkvAMf1ZI7U
+          `
+      );
+
+      setPlaces(data.results);
+      setIsLoad(false);
+    }
+
+    fetchPlacesApi();
+  }, [type, latitude, longitude]);
+
   function onMarkerClick(props, marker, place) {
     setSelectedPlace(place);
     setActiveMarker(marker);
@@ -57,23 +83,32 @@ function MapWrapper({ google }) {
   }
 
   async function fetchPlaces(mapProps, map) {
+    setIsLoad(true);
     const lat = map.center.lat();
     const lng = map.center.lng();
 
     const { data } = await api_maps.get(
       'https://cors-anywhere.herokuapp.com/' +
-        `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=1500&type=supermarket&key=AIzaSyDHmAC9pMhcHcgNqxBkeGh_MkvAMf1ZI7U
+        `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=1500&type=${type}&key=AIzaSyDHmAC9pMhcHcgNqxBkeGh_MkvAMf1ZI7U
         `
     );
 
     setPlaces(data.results);
+    setIsLoad(false);
   }
 
   return (
     <>
       {latitude && longitude && (
         <>
-          <ListTypes />
+          <WrapperDropdown showInfoWindow={showInfoWindow}>
+            <Dropdown
+              placeholder="Selecione um filto"
+              options={defaultPlaces}
+              defaultValue={defaultPlaces[0]}
+              onChange={(selected) => setType(selected.value)}
+            />
+          </WrapperDropdown>
           <Map
             google={google}
             zoom={16}
@@ -118,6 +153,11 @@ function MapWrapper({ google }) {
               selectedPlace={selectedPlace}
               setShowInfoWindow={setShowInfoWindow}
             />
+          )}
+          {isLoad && (
+            <Loading isLoad={isLoad}>
+              <FaSpinner size={80} />
+            </Loading>
           )}
         </>
       )}

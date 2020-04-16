@@ -26,7 +26,7 @@ export const Container = styled.div`
   border-bottom-right-radius: 8px;
 
   height: 100%;
-  background: #5d95ef;
+  background: #cfd8dc;
 `;
 
 export const DivExit = styled.div`
