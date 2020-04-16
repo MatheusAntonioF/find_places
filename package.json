@@ -1,6 +1,10 @@
 {
   "name": "find_places",
   "version": "0.1.0",
+  "author": {
+    "name": "Matheus Felipe Antônio",
+    "email": "matheusantoniof@gmail.com"
+  },
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
