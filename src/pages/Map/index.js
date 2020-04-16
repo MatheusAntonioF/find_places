@@ -1,9 +1,12 @@
+/* eslint-disable no-console */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { Map, GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
 
 import { FaSpinner } from 'react-icons/fa';
+
+import { toast } from 'react-toastify';
 
 import { PlaceInfo, WrapperDropdown, Loading } from './styles';
 
@@ -12,7 +15,7 @@ import { api_maps } from '../../services/api';
 import defaultPlaces from './defaultPlaces';
 
 import LoadMap from './WhileLoadMap';
-import Place from './Place';
+import InfoPlace from './InfoPlace';
 
 import Dropdown from '../../components/Input/Dropdown';
 
@@ -47,8 +50,7 @@ function MapWrapper({ google }) {
           }
         );
       } else {
-        // eslint-disable-next-line no-alert
-        return alert('Serviço não suportado pelo navegador');
+        return toast.error('Serviço não suportado pelo navegador');
       }
       return currentPosition;
     }
@@ -58,23 +60,32 @@ function MapWrapper({ google }) {
   useEffect(() => {
     setIsLoad(true);
     async function fetchPlacesApi() {
-      const { data } = await api_maps.get(
-        'https://cors-anywhere.herokuapp.com/' +
-          `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=1500&type=${type}&key=AIzaSyDHmAC9pMhcHcgNqxBkeGh_MkvAMf1ZI7U
+      try {
+        const { data } = await api_maps.get(
+          'https://cors-anywhere.herokuapp.com/' +
+            `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=1500&type=${type}&key=AIzaSyDHmAC9pMhcHcgNqxBkeGh_MkvAMf1ZI7U
           `
-      );
+        );
 
-      setPlaces(data.results);
-      setIsLoad(false);
+        setPlaces(data.results);
+        setIsLoad(false);
+      } catch (err) {
+        toast.error('Falha ao carregar estabelecimentos');
+        console.error(err);
+      }
     }
 
     fetchPlacesApi();
   }, [type, latitude, longitude]);
 
-  function onMarkerClick(props, marker, place) {
+  function onMarkerClick(props, marker, place, isMyPosition) {
     setSelectedPlace(place);
     setActiveMarker(marker);
-    setShowInfoWindow(true);
+
+    if (isMyPosition) {
+      return setShowInfoWindow(false);
+    }
+    return setShowInfoWindow(true);
   }
 
   function onClickMap(e) {
@@ -87,13 +98,18 @@ function MapWrapper({ google }) {
     const lat = map.center.lat();
     const lng = map.center.lng();
 
-    const { data } = await api_maps.get(
-      'https://cors-anywhere.herokuapp.com/' +
-        `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=1500&type=${type}&key=AIzaSyDHmAC9pMhcHcgNqxBkeGh_MkvAMf1ZI7U
-        `
-    );
+    try {
+      const { data } = await api_maps.get(
+        'https://cors-anywhere.herokuapp.com/' +
+          `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=1500&type=${type}&key=AIzaSyDHmAC9pMhcHcgNqxBkeGh_MkvAMf1ZI7U
+          `
+      );
+      setPlaces(data.results);
+    } catch (err) {
+      toast.error('Falha ao carregar estabelecimentos');
+      console.error(err);
+    }
 
-    setPlaces(data.results);
     setIsLoad(false);
   }
 
@@ -124,8 +140,9 @@ function MapWrapper({ google }) {
             onClick={(t, map, e) => onClickMap(e)}
           >
             <Marker
-              onClick={(props, marker, e) => onMarkerClick(props, marker, e)}
-              name="Estou aqui!"
+              onClick={(props, marker, place) =>
+                onMarkerClick(props, marker, place, true)
+              }
               position={{
                 lat: latitude,
                 lng: longitude,
@@ -149,7 +166,7 @@ function MapWrapper({ google }) {
             </InfoWindow>
           </Map>
           {showInfoWindow && (
-            <Place
+            <InfoPlace
               selectedPlace={selectedPlace}
               setShowInfoWindow={setShowInfoWindow}
             />

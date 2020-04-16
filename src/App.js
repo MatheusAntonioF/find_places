@@ -2,6 +2,8 @@ import React from 'react';
 
 import { ThemeProvider } from 'styled-components';
 
+import { ToastContainer } from 'react-toastify';
+
 import theme from './styles/themes/light';
 
 import Map from './pages/Map';
@@ -13,6 +15,7 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <Map />
       <GlobalStyles />
+      <ToastContainer />
     </ThemeProvider>
   );
 }

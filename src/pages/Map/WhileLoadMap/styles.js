@@ -9,42 +9,16 @@ const spin = keyframes`
   }
 `;
 
-export const PlaceInfo = styled.div`
-  padding: 2px;
-  color: #4081ec;
-`;
-
-export const WrapperDropdown = styled.div`
-  position: fixed;
-  z-index: 1;
-  width: 50px;
-  top: 0.1%;
-  left: 10%;
-
-  background: none;
-  transition: 200ms ease;
-
-  ${(props) =>
-    props.showInfoWindow &&
-    css`
-      margin-left: 125px;
-    `}
-
-  @media (max-width: 400px) {
-    top: 10%;
-    left: 2.3%;
-  }
-`;
-
-export const Loading = styled.div`
+export const Container = styled.div`
   position: absolute;
-
   width: 100%;
   height: 100%;
 
   display: flex;
   justify-content: center;
   align-items: center;
+
+  color: ${(props) => props.theme.info.default};
 
   ${(props) =>
     props.isLoad &&
