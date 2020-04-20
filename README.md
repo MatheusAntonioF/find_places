@@ -42,7 +42,7 @@ git clone https://github.com/MatheusAntonioF/find_places.git
 <h5>Para instalar as dependências execute um dos comandos no terminal do projeto</h5> 
 
 ```
-npm
+npm install
 ```
 
 ou
