@@ -30,9 +30,13 @@ export const WrapperDropdown = styled.div`
       display: none;
     `}
 
-  @media (max-width: 400px) {
+  @media (min-width: 300px) and (max-width: 1200px) {
     top: 6%;
     left: 2.3%;
+  }
+
+  @media (width: 1424px) {
+    left: 15% !important;
   }
 `;
 
