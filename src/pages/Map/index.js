@@ -121,7 +121,6 @@ function MapWrapper({ google }) {
             <Dropdown
               placeholder="Selecione um filto"
               options={defaultPlaces}
-              defaultValue={defaultPlaces[0]}
               onChange={(selected) => setType(selected.value)}
             />
           </WrapperDropdown>
