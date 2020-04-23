@@ -10,6 +10,15 @@ const showSidebar = keyframes`
   }
 `;
 
+const showSidebarMobile = keyframes`
+  from {
+    width: 0%;
+  }
+  to {
+    width: 80%;
+  }
+`;
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -27,6 +36,12 @@ export const Container = styled.div`
 
   height: 100%;
   background: #cfd8dc;
+
+  z-index: 99;
+
+  @media (max-width: 400px) {
+    animation: ${showSidebarMobile} forwards 400ms !important;
+  }
 `;
 
 export const DivExit = styled.div`

@@ -27,11 +27,11 @@ export const WrapperDropdown = styled.div`
   ${(props) =>
     props.showInfoWindow &&
     css`
-      margin-left: 125px;
+      display: none;
     `}
 
   @media (max-width: 400px) {
-    top: 10%;
+    top: 6%;
     left: 2.3%;
   }
 `;
