@@ -31,7 +31,7 @@ export const WrapperDropdown = styled.div`
     `}
 
   @media (min-width: 300px) and (max-width: 1200px) {
-    top: 6%;
+    top: 7%;
     left: 2.3%;
   }
 
